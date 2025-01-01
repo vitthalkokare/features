@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Zoom on Hover</title>
+    <style>
+        .img-zoom-container {
+            position: relative;
+            display: inline-block; /* Allow for inline display */
+        }
+
+        #zoomResult {
+            border: 1px solid #d4d4d4;
+            position: absolute;
+            width: 200px; /* Size of zoomed area */
+            height: 200px; /* Size of zoomed area */
+            overflow: hidden;
+            display: none; /* Hidden by default */
+        }
+
+        #zoomResult img {
+            position: absolute;
+            width: 290px; /* Adjust based on desired zoom level */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+
+<div class="img-zoom-container">
+    <img src="https://images.ctfassets.net/wcfotm6rrl7u/5KYFmM6BQD6LHus6FpT6Mp/4b7b546a321f30d0933d21babfe6eefe/HMD_Crest-Hero-White-Homepage-v2.png?w=1920&fm=webp&q=80" width="300" height="300" alt="Planets" id="originalImage">
+    <div id="zoomResult"></div>
+</div>
+
+<script>
+const originalImage = document.getElementById('originalImage');
+const zoomResult = document.getElementById('zoomResult');
+
+// Show zoom effect on mouse move
+originalImage.addEventListener('mousemove', function(event) {
+    const rect = originalImage.getBoundingClientRect(); // Get image dimensions and position
+    const x = event.clientX - rect.left; // Mouse X relative to the image
+    const y = event.clientY - rect.top; // Mouse Y relative to the image
+
+    // Set position and size of the zoom result box
+    zoomResult.style.left = (event.pageX + 50) + 'px'; // Offset for visibility
+    zoomResult.style.top = (event.pageY + 50) + 'px'; // Offset for visibility
+    zoomResult.style.display = 'block'; // Show the zoom box
+
+    // Set background image and size for zoom effect
+    zoomResult.style.backgroundImage = `url('${originalImage.src}')`;
+    zoomResult.style.backgroundSize = `${originalImage.width * 5}px ${originalImage.height * 5}px`; // Adjust scale for zoom level
+    zoomResult.style.backgroundPosition = `-${x * 5}px -${y * 5}px`; // Center the background according to mouse position
+});
+
+// Hide zoom effect when mouse leaves the image
+originalImage.addEventListener('mouseleave', function() {
+    zoomResult.style.display = 'none'; // Hide the zoom box
+});
+</script>
+
+</body>
+</html>
